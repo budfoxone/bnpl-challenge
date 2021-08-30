@@ -53,3 +53,4 @@ docker push <AWS Account>.dkr.ecr.ap-southeast-2.amazonaws.com/stock:latest
 Upload `fargate.yaml` to CloudFormation and fill in the parameters and stack name then create the stack
 
 *Note: VPC and subnets will need to be provided*
+
