@@ -30,27 +30,32 @@ public class StockService {
         // I thought it will be best to get the buy price and sell price plus max profit in one method
         int minPrice = 0;
         int maxPrice = 0;
-        int minPriceIndex = 0;
-        int maxPriceIndex = 0;
+        int maxProfit = 0;
 
-        if (ArrayUtils.isNotEmpty(stockPrices)) {
-            // get the lowest price you can get the stock
-            minPrice = NumberUtils.min(stockPrices);
-            minPriceIndex = ArrayUtils.indexOf(stockPrices, minPrice);
-            // after acquiring the lowest price, get the sell price starting off the lowest price index
-            int[] stockMaxPrice = ArrayUtils.subarray(stockPrices, minPriceIndex, stockPrices.length);
-            if (ArrayUtils.isNotEmpty(stockMaxPrice)) {
-                maxPrice = NumberUtils.max(stockMaxPrice);
-                maxPriceIndex = ArrayUtils.indexOf(stockPrices, maxPrice);
+        if (stockPrices.length > 0) {
+            int tmpProfit = 0;
+            int tmpMinPrice = stockPrices.length > 0 ? stockPrices[0] : 0;
+            for (int i =0; i<stockPrices.length; i++) {
+                if (stockPrices[i] > tmpMinPrice) {
+                    tmpProfit = stockPrices[i] - tmpMinPrice;
+                    if (tmpProfit > maxProfit) {
+                        maxProfit = tmpProfit;
+                        minPrice = tmpMinPrice;
+                        maxPrice = stockPrices[i];
+                    }
+                } else {
+                    if (stockPrices[i] > 0) {
+                        tmpMinPrice = stockPrices[i];
+                    }
+                }
             }
         }
-        int maxProfit = (maxPrice > 0 ? maxPrice : minPrice) - minPrice;
+        // if we can't buy and sell then we set the value to zero
+
         return StockProfit.builder()
                 .buyValue(minPrice)
                 .sellValue(maxPrice)
                 .maxProfit(maxProfit)
-                .buyValueIndex(minPriceIndex)
-                .sellValueIndex(maxPriceIndex)
                 .build();
     }
 

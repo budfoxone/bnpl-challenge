@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 public class StockProfit {
 
     private int buyValue;
-    private int buyValueIndex;
     private int sellValue;
-    private int sellValueIndex;
     private int maxProfit;
 }
